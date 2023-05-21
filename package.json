@@ -1,27 +1,26 @@
 {
-  "name": "@ligo/bigarray",
+  "name": "@ligo/bas64encode",
   "version": "1.0.0",
-  "description": "A LIGO library with a neat abstraction over list",
-  "main": "lib/bigarray.mligo",
-  "author": "LIGO developers",
-  "repository": "https://github.com/ligolang/bigarray-cameligo",
+  "description": "A LIGO for base64 encoding of byte data",
+  "main": "lib/base64.jsligo",
+  "author": "Boris Grit",
   "directories": {
     "lib": "lib",
     "test": "test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ligolang/bigarray-cameligo.git"
+    "url": "git+https://github.com/CapTake/ligo-base64-encode"
   },
   "keywords": [
     "ligo",
     "tezos",
-    "tezos-ligo",
-    "cameligo"
+    "jsligo",
+    "base64"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ligolang/bigarray-cameligo/issues"
+    "url": "https://github.com/CapTake/ligo-base64-encode/issues"
   },
-  "homepage": "https://ligolang.org/"
+  "homepage": "https://github.com/CapTake/ligo-base64-encode"
 }
