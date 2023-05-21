@@ -1,0 +1,45 @@
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+const lookup = (b : bytes) : string => String.sub(nat(b), (1 as nat), alphabet);
+
+const encode_chunk = (b : bytes) : string => {
+  let a = lookup(Bitwise.shift_right(b, 18 as nat));
+
+  a = String.concat(a, lookup(Bitwise.and(Bitwise.shift_right(b, 12 as nat), 0x3f)));
+
+  a = String.concat(a, lookup(Bitwise.and(Bitwise.shift_right(b, 6 as nat), 0x3f)));
+
+  return String.concat(a, lookup(Bitwise.and(b, 0x3f)));
+};
+
+const encode_tail = (b : bytes) : string => {
+  let a = "";
+  if (Bytes.length(b) < (2 as nat)) {
+    a = lookup(Bitwise.shift_right(b, 2 as nat));
+    a = String.concat(a, lookup(Bitwise.and(Bitwise.shift_left(b, 4 as nat), 0x30)));
+    a = String.concat(a, "=");
+  } else {
+    a = lookup(Bitwise.shift_right(b, 10 as nat));
+    a = String.concat(a, lookup(Bitwise.and(Bitwise.shift_right(b, 4 as nat), 0x3f)));
+    a = String.concat(a, lookup(Bitwise.and(Bitwise.shift_left(b, 2 as nat), 0x3c)));
+  }
+  return String.concat(a, "=");
+}
+
+const base64_encode = (b : bytes) : string => {
+  let [chunks, rem] = Option.unopt(ediv(Bytes.length(b), (3 as nat)));
+  
+  let result : string = "";
+
+  let cursor = 0 as nat;
+
+  while (cursor < chunks) {
+    result = String.concat(result, encode_chunk(Bytes.sub(cursor * (3 as nat), (3 as nat), b)));
+    cursor += 1 as nat;
+  };
+
+  if (rem > (0 as nat)) {
+    result = String.concat(result, encode_tail(Bytes.sub(cursor * (3 as nat), rem, b)))
+  }
+  return result;
+}
